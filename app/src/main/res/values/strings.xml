@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">IMAC</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Instituto de Ambiente Chacao</string>
+    <string name="nav_header_subtitle">Bienvenido</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="button">Continuar</string>
+    <string name="user">Ingrese su Usuario</string>
+    <string name="password">Ingrese su Contraseña</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="toast_error_inicio_sesion">No se pudo iniciar sesión, intente de nuevo</string>
+    <string name="error_iniciosesion">No se pudo iniciar sesión, intente de nuevo</string>
+    <string name="imagen_del_parque">Imagen del Parque</string>
+    <string name="normas">Normas y Reglamentos</string>
+    <string name="historia">Reseña Historica</string>
+    <string name="vegetacion">Vegetación Arborea</string>
+    <string name="actividades">Actividades Recreacionales</string>
+    <string name="google_maps_API_key">AIzaSyDUBcfAK2yc4du7jeRq4CLKRvwFuxALvFs</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

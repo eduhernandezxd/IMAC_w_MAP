@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.FragmentFOTO"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:id="@+id/tituloFoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Captura de Lugares"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/foto_tomada"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
+            android:src="@drawable/imagen_no_disponible"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+
+            />
+
+        <TextView
+            android:id="@+id/oomentario1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/foto_tomada"
+            android:layout_toEndOf="@+id/foto_tomada"
+            android:text="Toma una foto del lugar que visitaste y envianosla"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:paddingTop="50dp"
+            />
+
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:hint="Ingrese una breve descripcion"
+        android:padding="20dp"
+        android:selectAllOnFocus="false"
+        android:textColorLink="@color/colorAccent"
+        android:scrollHorizontally="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:padding="5dp"
+        >
+
+    <Button
+        android:id="@+id/boton_opciones_foto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4.8"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Opciones de Imagen"
+        android:textSize="13sp"
+        android:background="@drawable/boton_redondo"
+
+        />
+
+    <Button
+        android:id="@+id/boton_enviar_foto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4.8"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Enviar"
+        android:textSize="13sp"
+        android:background="@drawable/boton_redondo"
+
+        />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

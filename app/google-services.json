@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1099126124418",
+    "firebase_url": "https://imac-ed338.firebaseio.com",
+    "project_id": "imac-ed338",
+    "storage_bucket": "imac-ed338.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099126124418:android:1d751f8c468fcce7",
+        "android_client_info": {
+          "package_name": "com.ucab.tesis.imac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1099126124418-2u39flcd6ohbgvsmnn5fhjrj9j34lt3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ucab.tesis.imac",
+            "certificate_hash": "21ef24e395ff4488bc3716e4c6f62e7d535c55a6"
+          }
+        },
+        {
+          "client_id": "1099126124418-3gqgkcq7l23hsutpvvdrjhviu6o29iln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPtjR59ziiuIHz-aAcSiNT2TO0bXxbFk4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1099126124418-3gqgkcq7l23hsutpvvdrjhviu6o29iln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
