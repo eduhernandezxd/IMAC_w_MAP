@@ -24,6 +24,7 @@
     <string name="google_maps_API_key">AIzaSyDUBcfAK2yc4du7jeRq4CLKRvwFuxALvFs</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mensaje_gps">Actualmente el GPS se encuentra desactivado, para poder llegar a su parque o plaza de destino debe activar el la ubicación del dispositivo</string>
 
 
 </resources>

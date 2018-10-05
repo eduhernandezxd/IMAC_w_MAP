@@ -2,14 +2,18 @@ package com.ucab.tesis.imac;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -50,12 +56,14 @@ import java.util.List;
 public class MapaActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "MainActivity";
-    private static final String COURSE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final int PERMISSIONS_REQUEST_ENABLE_GPS = 6215;
+    private static final int ERROR_DIALOG_REQUEST = 0101;
     Context context = this;
     //Var
     private Boolean mLocationPermissionsGranted = false;
+    private Boolean EnableGPS = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GeoApiContext mGeoApiContext = null;
@@ -63,6 +71,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MarkerOptions mClusterMarkers;
     private Polyline polyline;
     private int constante = 0;
+    private AlertDialog alertDialog;
     private ArrayList<Marker> mTripMarkers = new ArrayList<>();
     //widgets
     Spinner spinner;
@@ -96,25 +105,111 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void getLocationPermission() {
         Log.d(TAG, "GetLocationPermission: Success");
-        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION};
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
         //Buscar en Internet ACCESS Couse Location, Fine Location
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if ((ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && (EnableGPS)) {
                 mLocationPermissionsGranted = true;
                 initMap();
             } else {
                 ActivityCompat.requestPermissions(this, permissions,
                         LOCATION_PERMISSION_REQUEST_CODE);
             }
-        } else {
-            ActivityCompat.requestPermissions(this, permissions,
-                    LOCATION_PERMISSION_REQUEST_CODE);
+
+    }
+
+    private boolean isMapsEnable(){
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            buildAlertMessageNoGPS();
+            return false;
+        }
+        return true;
+    }
+
+    private void buildAlertMessageNoGPS() {
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Actualmente el GPS esta desactivado, para encontrar su parque o plaza de destino debe activar la ubicación del dispositivo")
+                .setCancelable(false)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent enableGPSIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        EnableGPS = true;
+                        startActivityForResult(enableGPSIntent,PERMISSIONS_REQUEST_ENABLE_GPS);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                        onStart();
+                    }
+                });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ENABLE_GPS:
+                if(mLocationPermissionsGranted){
+                    Log.d("PRUEBA","FUNCIONAAAAAA");
+                }else {
+                getLocationPermission();
+                }
         }
 
+    }
 
+    private boolean checkMapServices(){
+        if(isServicesOK()){
+            if(isMapsEnable()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(checkMapServices()){
+            if(mLocationPermissionsGranted){
+                Log.d("PRUEBA","FUNCIONAAAAAA");
+            }
+        }else{
+            getLocationPermission();
+        }
+    }
+
+    public boolean isServicesOK(){
+        Log.d(TAG, "isServicesOK: checking google services version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MapaActivity.this);
+
+        if(available == ConnectionResult.SUCCESS){
+            //everything is fine and the user can make map requests
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            //an error occured but we can resolve it
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MapaActivity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else{
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
     private void init() {
@@ -227,7 +322,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                 latLng.latitude + "," + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         if (!title.equals("Mi ubicacion")) {
-            mClusterMarkers = new MarkerOptions().position(latLng).title(title).snippet("¿Deseas llegar a esta posicion?");
+            mClusterMarkers = new MarkerOptions().position(latLng).title(title).snippet("¿Deseas llegar a esta posición?");
             mClusterMarkers.visible(true);
             mMap.addMarker(mClusterMarkers);
         }
