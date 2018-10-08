@@ -53,9 +53,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapaActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapaActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MapaActivity";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final int PERMISSIONS_REQUEST_ENABLE_GPS = 6215;
@@ -125,6 +126,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
             buildAlertMessageNoGPS();
             return false;
         }
+        EnableGPS = true;
         return true;
     }
 
@@ -138,7 +140,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent enableGPSIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        EnableGPS = true;
                         startActivityForResult(enableGPSIntent,PERMISSIONS_REQUEST_ENABLE_GPS);
                     }
                 })
@@ -146,7 +147,10 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alertDialog.dismiss();
-                        onStart();
+                        Intent backIntent = new Intent(getApplicationContext(),Main2Activity.class);
+                        EnableGPS = true;
+                        startActivity(backIntent);
+                        finish();
                     }
                 });
 
@@ -161,7 +165,11 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ENABLE_GPS:
                 if(mLocationPermissionsGranted){
-                    Log.d("PRUEBA","FUNCIONAAAAAA");
+                    if(resultCode == RESULT_OK){
+                        Log.d("PRUEBA_DEFINITIVA","INICIA EL MAPA DE VERDAD");
+
+                    }
+
                 }else {
                 getLocationPermission();
                 }
@@ -184,11 +192,20 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if(checkMapServices()){
             if(mLocationPermissionsGranted){
-                Log.d("PRUEBA","FUNCIONAAAAAA");
+                Log.d("PRUEBA","EL GPS ESTA ACTIVO");
+                initMap();
             }
         }else{
             getLocationPermission();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+
+
     }
 
     public boolean isServicesOK(){
@@ -284,6 +301,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFusedLocationProviderClient = LocationServices.
                 getFusedLocationProviderClient(this);
         try {
+            Thread.sleep(2000);
             if (mLocationPermissionsGranted) {
                 final Task location = mFusedLocationProviderClient.getLastLocation();
 
@@ -314,6 +332,8 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -337,15 +357,16 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
             case LOCATION_PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0) {
                     for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             mLocationPermissionsGranted = false;
                             Log.d(TAG, "onRequestPermissionsResult: permission failed");
                             return;
                         }
                     }
                     mLocationPermissionsGranted = true;
-                    //inicia el mapa
-                    initMap();
+                    if(EnableGPS){
+                        initMap();
+                    }
                 }
             }
         }
@@ -370,17 +391,8 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
             if (ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.
-                    PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
                 return;
             }
             mMap.setMyLocationEnabled(true);
