@@ -25,6 +25,8 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mensaje_gps">Actualmente el GPS se encuentra desactivado, para poder llegar a su parque o plaza de destino debe activar el la ubicación del dispositivo</string>
+    <string name="text_infomapa">También puede acceder al Info Mapa para consultar otras lugares interesantes pertenecientes al Municipio Chacao. Para ingresar, click al icono</string>
+    <string name="titulo_activity_mapa">Busqueda de Lugares</string>
 
 
 </resources>
