@@ -36,8 +36,9 @@
 
         <TextView
             android:id="@+id/oomentario1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_toRightOf="@+id/foto_tomada"
             android:layout_toEndOf="@+id/foto_tomada"
             android:text="Toma una foto del lugar que visitaste y envianosla"

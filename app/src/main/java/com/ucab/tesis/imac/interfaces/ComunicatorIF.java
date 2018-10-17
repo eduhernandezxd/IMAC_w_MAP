@@ -1,5 +1,7 @@
 package com.ucab.tesis.imac.interfaces;
 
+import android.os.Bundle;
+
 import com.ucab.tesis.imac.modelo.Items;
 
 public interface ComunicatorIF {

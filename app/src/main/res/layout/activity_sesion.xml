@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Sesion"
-    android:background="@drawable/chacao_1"
+    android:background="@drawable/plaza_francia"
     >
 
 </RelativeLayout>

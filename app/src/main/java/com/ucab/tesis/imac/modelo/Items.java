@@ -21,6 +21,10 @@ public class Items implements Serializable{
 
     }
 
+    public Items() {
+
+    }
+
     public int getObjeto3() {
         return objeto3;
     }

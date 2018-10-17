@@ -1,13 +1,14 @@
 package com.ucab.tesis.imac;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 public class Sesion extends AppCompatActivity {
 
@@ -25,7 +26,6 @@ public class Sesion extends AppCompatActivity {
                 Intent intent = new Intent().setClass(
                         Sesion.this,MainActivity.class);
                 startActivity(intent);
-
                 finish();
             }
         };

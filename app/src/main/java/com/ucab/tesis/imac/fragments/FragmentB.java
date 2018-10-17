@@ -12,6 +12,8 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.ucab.tesis.imac.modelo.Items;
 import com.ucab.tesis.imac.R;
 import java.util.ArrayList;
@@ -20,38 +22,21 @@ import java.util.List;
 
 public class FragmentB extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     TextView texto_s;
     ImageView imagen_s;
-
+    Bundle bundle;
 
     private List<String> list_padre;
     private HashMap<String,List<String>> listHashMap;
 
     public FragmentB() { }
 
-    public static FragmentB newInstance(String param1, String param2) {
-        FragmentB fragment = new FragmentB();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -64,16 +49,15 @@ public class FragmentB extends Fragment {
         texto_s = vista.findViewById(R.id.textoDetalle);
         imagen_s = vista.findViewById(R.id.fotodetalle);
 
-        Bundle bundle = getArguments();
+
+        bundle = getArguments();
         Items datos = null;
 
         if(bundle != null){
 
             datos = (Items) bundle.getSerializable("objeto");
-            imagen_s.setImageResource(datos.getObjeto3());
             texto_s.setText(datos.getObjeto4());
         }
-
 
         ExpandableListView expandableListView = vista.findViewById(R.id.expand_list);
         initData();
@@ -93,16 +77,12 @@ public class FragmentB extends Fragment {
         list_padre.add("Actividades Recreacionales");
 
         List<String> normas= new ArrayList<>();
-        normas.add("Opcion 1");
         normas.add("Opcion 2");
-        normas.add("Opcion 3");
-        normas.add("Opcion 4");
+
 
         List<String> historia = new ArrayList<>();
         historia.add("Opcion 1");
-        historia.add("Opcion 1");
-        historia.add("Opcion 1");
-        historia.add("Opcion 1");
+
 
         List<String> vegetal= new ArrayList<>();
         vegetal.add("Opcion 1");

@@ -22,16 +22,18 @@ import com.ucab.tesis.imac.interfaces.ComunicatorIF;
 import com.ucab.tesis.imac.modelo.Items;
 
 
+
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentA.OnFragmentInteractionListener,
         FragmentB.OnFragmentInteractionListener,
         FragmentFOTO.OnFragmentInteractionListener,
-        ComunicatorIF{
+        ComunicatorIF {
 
-    FragmentA fragmentA;
-    FragmentB fragmentB;
-    FragmentFOTO fragmentFOTO;
+    private FragmentA fragmentA;
+    private FragmentB fragmentB;
+    private FragmentFOTO fragmentFOTO;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +42,17 @@ public class Main2Activity extends AppCompatActivity
 
         fragmentA = new FragmentA();
         fragmentB = new FragmentB();
+        bundle = new Bundle();
+        Intent intent_datos = getIntent();
+        bundle = intent_datos.getBundleExtra("bundle");
+        fragmentA.setArguments(bundle);
 
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.contendorFragments,fragmentA).commit();
+                .replace(R.id.contendorFragments, fragmentA)
+                .addToBackStack(null)
+                .commit();
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,7 +61,7 @@ public class Main2Activity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),MapaActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MapaActivity.class);
                 startActivity(intent);
 
             }
@@ -76,9 +85,16 @@ public class Main2Activity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean enable_fragment = true;
+
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -96,14 +112,17 @@ public class Main2Activity extends AppCompatActivity
 
         } else if (id == R.id.nav_4) {
 
-        } else if (id == R.id.nav_5){
+        } else if (id == R.id.nav_5) {
 
-        } else if (id == R.id.nav_6){
+        } else if (id == R.id.nav_6) {
 
         }
 
-        if(fragment_seleccionado==true){
-            getSupportFragmentManager().beginTransaction().replace(R.id.contendorFragments,fragmentFOTO).addToBackStack(null).commit();
+        if (fragment_seleccionado) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contendorFragments, fragmentFOTO)
+                    .addToBackStack(null).commit();
         }
 
 
@@ -120,19 +139,21 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     public void enviar_datos(Items items_data) {
-        fragmentB=new FragmentB();
+        fragmentB = new FragmentB();
         Bundle bundle1 = new Bundle();
-        bundle1.putSerializable("objeto",items_data);
+        bundle1.putSerializable("objeto", items_data);
         fragmentB.setArguments(bundle1);
+        String reseña = bundle.getString("KEY_RESEÑA");
+        bundle1.putString("reseña",reseña);
 
         //Se carga el Fragments correspondiente
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.contendorFragments,fragmentB).addToBackStack(null
-        ).commit();
+                .replace(R.id.contendorFragments, fragmentB)
+                .addToBackStack(null).commit();
 
 
     }
-}
 
+}

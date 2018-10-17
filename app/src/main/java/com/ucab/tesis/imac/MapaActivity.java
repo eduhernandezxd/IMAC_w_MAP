@@ -216,12 +216,10 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MapaActivity.this);
 
         if(available == ConnectionResult.SUCCESS){
-            //everything is fine and the user can make map requests
             Log.d(TAG, "isServicesOK: Google Play Services is working");
             return true;
         }
         else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-            //an error occured but we can resolve it
             Log.d(TAG, "isServicesOK: an error occured but we can fix it");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MapaActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
@@ -291,7 +289,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                         address.getAddressLine(0));
             }
         }
-        //constante++;
     }
 
 
