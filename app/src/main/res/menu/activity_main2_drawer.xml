@@ -19,7 +19,7 @@
             android:title="Ayuda y Comentarios" />
     </group>
 
-    <item android:title="-----------------------------------------------------">
+    <item android:title="        ">
         <menu>
             <item
                 android:id="@+id/nav_5"

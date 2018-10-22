@@ -74,7 +74,7 @@ public class FragmentB extends Fragment {
         list_padre.add("Normas y Reglamentos");
         list_padre.add("Reseña Histórica");
         list_padre.add("Vegetación Arborea");
-        list_padre.add("Actividades Recreacionales");
+        list_padre.add("Fauna Silvestre");
 
         List<String> normas= new ArrayList<>();
         normas.add("Opcion 2");

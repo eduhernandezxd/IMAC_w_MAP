@@ -1,5 +1,6 @@
 package com.ucab.tesis.imac.Adaptadores;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.ucab.tesis.imac.fragments.FragmentA;
 import com.ucab.tesis.imac.modelo.Items;
 import com.ucab.tesis.imac.R;
 
@@ -19,10 +22,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolderDa
         implements View.OnClickListener{
 
     ArrayList<Items> l_datos;
+    Context context;
     private View.OnClickListener listener;
 
-    public ItemsAdapter(ArrayList<Items> l_datos) {
+
+    public ItemsAdapter(ArrayList<Items> l_datos,Context context) {
         this.l_datos = l_datos;
+        this.context = context;
     }
 
     @NonNull
@@ -42,7 +48,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolderDa
     @Override
     public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
            holder.dato1.setText(l_datos.get(position).getObjeto2());
-           holder.dato2.setImageResource(l_datos.get(position).getObjeto1());
+
+         Glide.with(context)
+                 .load(l_datos.get(position).getObjeto1())
+                 .into(holder.dato2);
+
     }
 
     @Override

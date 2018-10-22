@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class Items implements Serializable{
 
     //Lista Principal
-    private int objeto1;
+    private String objeto1;
     private String objeto2;
 
     //Lista Secundaria
     private int objeto3;
     private String objeto4;
 
-    public Items(int objeto1, int objeto3,String objeto2, String objeto4){
+    public Items(String objeto1, int objeto3,String objeto2, String objeto4){
         this.objeto1 = objeto1;
         this.objeto2 = objeto2;
         this.objeto3 = objeto3;
@@ -41,11 +41,11 @@ public class Items implements Serializable{
         this.objeto4 = objeto4;
     }
 
-    public int getObjeto1() {
+    public String getObjeto1() {
         return objeto1;
     }
 
-    public void setObjeto1(int objeto1) {
+    public void setObjeto1(String objeto1) {
         this.objeto1 = objeto1;
     }
 
