@@ -181,9 +181,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private boolean checkMapServices(){
         if(isServicesOK()){
-            if(isMapsEnable()){
-                return true;
-            }
+            return isMapsEnable();
         }
         return false;
     }
@@ -235,7 +233,10 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         list.add("Seleccionar Parque o Plaza");
         list.add("Parque Boyaca Chacao");
         list.add("Plaza Bolivar Chacao");
-        list.add("central madeirense marques");
+        list.add("Parque Justicia y Paz");
+        list.add("Plaza La Castellana");
+        list.add("Plaza Los Palos Grandes");
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.
                 simple_dropdown_item_1line, list);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -272,13 +273,12 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void geolocate(String posicion) {
         Log.d(TAG, "geoLocate: geolocating");
 
-        if (posicion != "Seleccionar Parque o Plaza") {
+        if (!posicion.equals("Seleccionar Parque o Plaza")) {
             resetMap();
-            String searchString = posicion;
             Geocoder geocoder = new Geocoder(MapaActivity.this);
             List<Address> list = new ArrayList<>();
             try {
-                list = geocoder.getFromLocationName(searchString, 1);
+                list = geocoder.getFromLocationName(posicion, 1);
             } catch (IOException e) {
                 Log.e(TAG, "geoLocate: IOException" + e.getMessage());
             }
@@ -355,8 +355,8 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    for (int grantResult : grantResults) {
+                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
                             mLocationPermissionsGranted = false;
                             Log.d(TAG, "onRequestPermissionsResult: permission failed");
                             return;

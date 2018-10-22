@@ -28,6 +28,7 @@
     <string name="text_infomapa">También puede acceder al Info Mapa para consultar otras lugares interesantes pertenecientes al Municipio Chacao. Para ingresar, click al icono</string>
     <string name="titulo_activity_mapa">Búsqueda de Lugares</string>
     <string name="titulo_lugares">Parques y Plazas</string>
+    <string name="DIR_IP">192.168.1.132</string>
 
 
 </resources>

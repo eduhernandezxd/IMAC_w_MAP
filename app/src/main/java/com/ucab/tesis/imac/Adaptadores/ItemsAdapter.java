@@ -74,6 +74,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolderDa
             dato1=itemView.findViewById(R.id.lista1);
             dato2=itemView.findViewById(R.id.imageItem);
 
+
+
         }
 
     }

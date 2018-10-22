@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,24 +16,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ucab.tesis.imac.fragments.FragmentA;
 import com.ucab.tesis.imac.fragments.FragmentB;
 import com.ucab.tesis.imac.fragments.FragmentFOTO;
 import com.ucab.tesis.imac.interfaces.ComunicatorIF;
 import com.ucab.tesis.imac.modelo.Items;
 
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentA.OnFragmentInteractionListener,
         FragmentB.OnFragmentInteractionListener,
         FragmentFOTO.OnFragmentInteractionListener,
-        ComunicatorIF {
+        ComunicatorIF{
 
-    private FragmentA fragmentA;
     private FragmentB fragmentB;
-    private FragmentFOTO fragmentFOTO;
     private Bundle bundle;
 
     @Override
@@ -40,14 +43,14 @@ public class Main2Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        fragmentA = new FragmentA();
+        FragmentA fragmentA = new FragmentA();
         fragmentB = new FragmentB();
-        bundle = new Bundle();
-        Intent intent_datos = getIntent();
-        bundle = intent_datos.getBundleExtra("bundle");
-        fragmentA.setArguments(bundle);
 
+        ArrayList<String> lista_parques = getIntent().getExtras().getStringArrayList("NOMBRE_PARQUES");
+        Log.d("LISTA P A R Q U E S",String.valueOf(lista_parques));
 
+        fragmentA.ListaParques(lista_parques);
+        
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.contendorFragments, fragmentA)
                 .addToBackStack(null)
@@ -75,8 +78,8 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
 
+    }
 
     @Override
     public void onBackPressed() {
@@ -92,7 +95,6 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        boolean enable_fragment = true;
 
     }
 
@@ -101,7 +103,7 @@ public class Main2Activity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        fragmentFOTO = null;
+        FragmentFOTO fragmentFOTO = null;
         boolean fragment_seleccionado = false;
 
         if (id == R.id.nav_1) {
@@ -143,8 +145,6 @@ public class Main2Activity extends AppCompatActivity
         Bundle bundle1 = new Bundle();
         bundle1.putSerializable("objeto", items_data);
         fragmentB.setArguments(bundle1);
-        String reseña = bundle.getString("KEY_RESEÑA");
-        bundle1.putString("reseña",reseña);
 
         //Se carga el Fragments correspondiente
 

@@ -39,16 +39,11 @@ public class FragmentA extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ArrayList<Items> l_datos;
+    private ArrayList<String> lista;
     private RecyclerView recyclerView;
-    private Activity activity;
     private ComunicatorIF cif;
-    private RequestQueue requestQueue;
-    private JsonObjectRequest jsonObjectRequest;
-
     private String data1;
     private String url_img;
-
-
 
 
     public FragmentA() { }
@@ -94,11 +89,10 @@ public class FragmentA extends Fragment {
     private void llenar_lista() {
             //Metodo para llenar la lista de los Parques correspndientes
 
-        l_datos.add(new Items(R.drawable.plaza_bolivar,R.drawable.ambiente_chacao,"Parque 1", "Direccion Parque 1 "));
-        l_datos.add(new Items(R.drawable.plaza_bolivar,R.drawable.ambiente_chacao,"Parque 2", "Direccion Parque 2 "));
-        l_datos.add(new Items(R.drawable.plaza_bolivar,R.drawable.ambiente_chacao,"Parque 3", "Direccion Parque 3 "));
-        l_datos.add(new Items(R.drawable.plaza_bolivar,R.drawable.ambiente_chacao,"Parque 4", "Direccion Parque 4 "));
-        l_datos.add(new Items(R.drawable.plaza_bolivar,R.drawable.ambiente_chacao,"Parque 5", "Direccion Parque 5 "));
+
+        for(int i=0;i<lista.size();i++) {
+            l_datos.add(new Items(R.drawable.plaza_bolivar,R.drawable.ambiente_chacao, lista.get(i), "Direccion"));
+        }
 
 
     }
@@ -114,8 +108,8 @@ public class FragmentA extends Fragment {
         super.onAttach(context);
 
         if(context instanceof Activity){
-            this.activity = (Activity) context;
-            cif= (ComunicatorIF) this.activity;
+            Activity activity = (Activity) context;
+            cif= (ComunicatorIF) activity;
         }
 
 
@@ -137,6 +131,10 @@ public class FragmentA extends Fragment {
     public void onStart() {
         super.onStart();
 
+    }
+
+    public void ListaParques(ArrayList<String> lista_parques) {
+        lista = lista_parques;
     }
 
 
