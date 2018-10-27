@@ -21,22 +21,22 @@ import com.android.volley.VolleyError;
 import com.ucab.tesis.imac.fragments.FragmentA;
 import com.ucab.tesis.imac.fragments.FragmentB;
 import com.ucab.tesis.imac.fragments.FragmentFOTO;
+import com.ucab.tesis.imac.fragments.FragmentVF;
 import com.ucab.tesis.imac.interfaces.ComunicatorIF;
 import com.ucab.tesis.imac.modelo.Items;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentA.OnFragmentInteractionListener,
         FragmentB.OnFragmentInteractionListener,
         FragmentFOTO.OnFragmentInteractionListener,
+        FragmentVF.OnFragmentInteractionListener,
         ComunicatorIF{
-
-    private FragmentB fragmentB;
-    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +44,16 @@ public class Main2Activity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
 
         FragmentA fragmentA = new FragmentA();
-        fragmentB = new FragmentB();
 
         ArrayList<String> lista_parques = getIntent().getExtras().getStringArrayList("NOMBRE_PARQUES");
         Log.d("LISTA P A R Q U E S",String.valueOf(lista_parques));
 
         fragmentA.ListaParques(lista_parques);
+
         
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.contendorFragments, fragmentA)
-                .addToBackStack(null)
                 .commit();
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,7 +93,6 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -141,19 +138,43 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     public void enviar_datos(Items items_data) {
-        fragmentB = new FragmentB();
+        FragmentB fragmentB = new FragmentB();
         Bundle bundle1 = new Bundle();
         bundle1.putSerializable("objeto", items_data);
         fragmentB.setArguments(bundle1);
 
-        //Se carga el Fragments correspondiente
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.contendorFragments, fragmentB)
-                .addToBackStack(null).commit();
+                .addToBackStack(null)
+                .commit();
+    }
 
+    @Override
+    public void vegetacion_fauna(String data,String tipo){
+        FragmentVF fragmentVF = new FragmentVF();
+        Bundle bundle2 = new Bundle();
+        List<String> listaVF = new ArrayList<>();
 
+        if(tipo.equals("Vegetacion")) {
+           listaVF.add(data);
+           listaVF.add("Vegetacion");
+           bundle2.putStringArrayList("VF", (ArrayList<String>) listaVF);
+        }
+
+        if(tipo.equals("Fauna")){
+            listaVF.add(data);
+            listaVF.add("Fauna");
+            bundle2.putStringArrayList("VF", (ArrayList<String>) listaVF);
+        }
+
+        fragmentVF.setArguments(bundle2);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contendorFragments,fragmentVF)
+                .addToBackStack(null)
+                .commit();
     }
 
 }

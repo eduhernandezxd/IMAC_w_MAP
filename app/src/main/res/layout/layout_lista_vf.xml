@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="10"
+    >
+
+    <ImageView
+        android:id="@+id/img_VF"
+        android:layout_weight="4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/plaza_francia"
+        />
+
+    <LinearLayout
+        android:layout_weight="6"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        >
+
+    <TextView
+        android:id="@+id/title_VF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/app_name"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        />
+
+    <TextView
+        android:id="@+id/descripcion_VF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/app_name"
+        android:textSize="12sp"
+        android:textColor="@color/colorAccent"
+        />
+
+    </LinearLayout>
+</LinearLayout>
+

@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.ucab.tesis.imac.fragments.FragmentA;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucab.tesis.imac.modelo.Items;
 import com.ucab.tesis.imac.R;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolderDatos>
         implements View.OnClickListener{
@@ -42,7 +41,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolderDa
 
         return new ViewHolderDatos(view);
 
-
     }
 
     @Override
@@ -51,6 +49,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolderDa
 
          Glide.with(context)
                  .load(l_datos.get(position).getObjeto1())
+                 .apply(new RequestOptions()
+                        .placeholder(R.drawable.cargando))
                  .into(holder.dato2);
 
     }

@@ -3,23 +3,23 @@ package com.ucab.tesis.imac.modelo;
 public class Parques {
 
     private String titulo;
-    private String reseña;
+    private String descripcion;
+    private String img;
 
-    public Parques(String titulo, String reseña) {
+    public Parques(String titulo, String descripcion, String img) {
         this.titulo = titulo;
-        this.reseña = reseña;
+        this.descripcion = descripcion;
+        this.img = img;
     }
 
-    public Parques() {
+    public Parques() { }
 
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public String getReseña() {
-        return reseña;
-    }
-
-    public void setReseña(String reseña) {
-        this.reseña = reseña;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getTitulo() {
@@ -28,5 +28,13 @@ public class Parques {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

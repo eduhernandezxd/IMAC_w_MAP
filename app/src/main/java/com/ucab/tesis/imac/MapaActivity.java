@@ -136,7 +136,8 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Actualmente el GPS esta desactivado, para encontrar su parque o plaza de destino debe activar la ubicación del dispositivo")
+        builder.setMessage("Actualmente el GPS esta desactivado, para encontrar su parque " +
+                "o plaza de destino debe activar la ubicación del dispositivo")
                 .setCancelable(false)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
@@ -149,9 +150,8 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alertDialog.dismiss();
-                        Intent backIntent = new Intent(getApplicationContext(),Main2Activity.class);
                         EnableGPS = true;
-                        startActivity(backIntent);
+                        onBackPressed();
                         finish();
                     }
                 });
@@ -341,7 +341,8 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                 latLng.latitude + "," + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         if (!title.equals("Mi ubicacion")) {
-            mClusterMarkers = new MarkerOptions().position(latLng).title(title).snippet("¿Deseas llegar a esta posición?");
+            Toast.makeText(getApplicationContext(),"Presione el marcador para ver opciones",Toast.LENGTH_LONG).show();
+            mClusterMarkers = new MarkerOptions().position(latLng).title(title).snippet("¿Desea llegar a esta posición?");
             mClusterMarkers.visible(true);
             mMap.addMarker(mClusterMarkers);
         }

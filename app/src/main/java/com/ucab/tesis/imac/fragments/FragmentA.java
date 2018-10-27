@@ -1,5 +1,6 @@
 package com.ucab.tesis.imac.fragments;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -51,18 +53,9 @@ public class FragmentA extends Fragment implements Response.Listener<JSONObject>
     private ArrayList<String> lista_img;
     private RecyclerView recyclerView;
     private ComunicatorIF cif;
-    private ProgressDialog progressDialog;
+
 
     public FragmentA() { }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -142,18 +135,12 @@ public class FragmentA extends Fragment implements Response.Listener<JSONObject>
     @Override
     public void onResponse(JSONObject response) {
         lista_img = new ArrayList<>();
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Cargando");
-        progressDialog.show();
 
         try{
             JSONArray jsonArray = response.getJSONArray("posts");
 
-
             for (int i=0;i<lista.size();i++){
-
                 for (int d=0;d<jsonArray.length();d++){
-
                     JSONObject jsonObject = jsonArray.getJSONObject(d);
                     String aux = jsonObject.optString("title");
                     if(lista.get(i).equals(aux)){
@@ -166,7 +153,6 @@ public class FragmentA extends Fragment implements Response.Listener<JSONObject>
 
                             if(!src.equals("")) {
                                 lista_img.add(src);
-                                Log.d("     PRINT 2:", "          " + src);
                                 break;
                             }
                         }
@@ -174,17 +160,14 @@ public class FragmentA extends Fragment implements Response.Listener<JSONObject>
                 }
             }
 
-            Log.d("P R O B A N D O",String.valueOf(lista_img));
-
             llenar_lista();
             ItemsAdapter adapter1 = new ItemsAdapter(l_datos,getContext());
             recyclerView.setAdapter(adapter1);
-            progressDialog.dismiss();
             adapter1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getContext(),
-                            "Ingresar informacion referente al: "+l_datos.get(recyclerView
+                            "Información del Parque/Plaza: "+l_datos.get(recyclerView
                                     .getChildAdapterPosition(v)).getObjeto2(),Toast.LENGTH_LONG).show();
 
                     cif.enviar_datos(l_datos.get(recyclerView.getChildAdapterPosition(v)));
@@ -192,15 +175,10 @@ public class FragmentA extends Fragment implements Response.Listener<JSONObject>
                 }
             });
 
-
-
-
-
         }catch (JSONException e){
             e.printStackTrace();
         }
     }
-
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

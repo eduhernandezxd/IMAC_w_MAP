@@ -1,11 +1,13 @@
 package com.ucab.tesis.imac;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
 import android.net.NetworkInfo;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,33 +15,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.ucab.tesis.imac.modelo.Parques;
 import com.ucab.tesis.imac.modelo.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>,Response.ErrorListener {
 
     private Button auxboton;
-    private Parques parques;
-    private String url;
-    private String urlaux;
     private ArrayList<String> lista_posts;
     private ArrayList<String> lista_parques;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +71,37 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     public void onErrorResponse(VolleyError error) {
         Log.d("E R R O R",error.toString());
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         if (isConnected()) {
-            Toast.makeText(getApplicationContext(),"No se pudo conectar con el servidor",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
-            startActivity(intent);
+            builder.setMessage("No se pudo conectar con el servidor, por favor reinicie la " +
+                    "aplicación y asegurese que cuenta con conexión a internet")
+                    .setCancelable(false)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            auxboton.setEnabled(false);
+                            auxboton.setVisibility(View.INVISIBLE);
+                            alertDialog.dismiss();
+                        }
+                    });
+            alertDialog = builder.create();
+            alertDialog.show();
+
         }else{
-            Toast.makeText(getApplicationContext(),"Se necesita una conexión " +
-                    "a internet para disfrutar de la aplicación, por favor activela " +
-                    "antes de continuar",Toast.LENGTH_LONG).show();
+            builder.setMessage("Se necesita una conexión a internet para disfrutar de la" +
+                    " aplicación, por favor activela y reinicie la aplicación antes de continuar")
+                    .setCancelable(false)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            auxboton.setEnabled(false);
+                            auxboton.setVisibility(View.INVISIBLE);
+                            alertDialog.dismiss();
+                        }
+                    });
+            alertDialog = builder.create();
+            alertDialog.show();
         }
     }
 
@@ -103,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putStringArrayList("NOMBRE_PARQUES",lista_parques);
-                    intent.putExtras(bundle);
 
                     if (isConnected()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putStringArrayList("NOMBRE_PARQUES",lista_parques);
+                        intent.putExtras(bundle);
                         startActivity(intent);
                     }else{
                         Toast.makeText(getApplicationContext(),"Se necesita una conexión " +
@@ -153,8 +167,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                         String[] aux = nombre.split(" ", 2);
                         String titulo = aux[1];
                         lista_parques.add(titulo);
-                    } else {
-               //Primer Filtro de Parques
+
             }
         }
         Log.d("TITULOS DE LOS PARQUES",String.valueOf(lista_parques));
