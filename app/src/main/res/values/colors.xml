@@ -7,6 +7,8 @@
     <color name="black_overlay">#D7D7D7</color>
     <color name="blanco">#FFFFFF</color>
     <color name="color_de_fondo">#F7DC6F</color>
+    <color name="color_tarjetas">#f1e09b</color>
+    <color name="color_boton_mapa">#c2c4c6</color>
     <color name="color_lista_detalle">#2ECC71</color>
     <color name="color_boton_redondo">#ed9638</color>
     <color name="Blue">#0015ff</color>

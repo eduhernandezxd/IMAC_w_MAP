@@ -3,6 +3,7 @@ package com.ucab.tesis.imac.Adaptadores;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ public class VFAdapter extends RecyclerView.Adapter<VFAdapter.ViewHolderVF>{
     private ArrayList<Parques> lista_datos;
     private Context context;
 
-    public VFAdapter(ArrayList<Parques> lista_datos, Context context) {
+    public VFAdapter(ArrayList<Parques> lista_datos,Context context) {
         this.lista_datos = lista_datos;
         this.context = context;
     }
@@ -36,9 +37,12 @@ public class VFAdapter extends RecyclerView.Adapter<VFAdapter.ViewHolderVF>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderVF holder, int position) {
-        holder.dato1.setText(lista_datos.get(position).getTitulo());
-        holder.dato2.setText(lista_datos.get(position).getDescripcion());
-        Glide.with(context)
+
+            holder.dato1.setText(lista_datos.get(position).getTitulo());
+            holder.dato2.setText(lista_datos.get(position).getDescripcion());
+
+
+            Glide.with(context)
                 .load(lista_datos.get(position).getImg())
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.cargando))

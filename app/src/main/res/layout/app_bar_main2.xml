@@ -29,7 +29,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_place"
-        app:backgroundTint="@color/color_de_fondo"
+        app:backgroundTint="@color/color_boton_mapa"
 
         />
 

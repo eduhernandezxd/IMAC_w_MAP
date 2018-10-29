@@ -38,7 +38,6 @@ public class FragmentVF extends Fragment {
     private ArrayList<Parques> lista_parques;
     private ArrayList<String> lista_img_v;
     private ArrayList<String> lista_img_f;
-    private ArrayList<String> lista_textos;
 
     public FragmentVF(){ }
 
@@ -83,7 +82,7 @@ public class FragmentVF extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                lista_img_v = new ArrayList<>();
-               lista_textos = new ArrayList<>();
+               ArrayList<String> lista_textos = new ArrayList<>();
 
                 JSONObject jsonObject = response.optJSONObject("post");
                 String content = jsonObject.optString("content");
@@ -109,7 +108,7 @@ public class FragmentVF extends Fragment {
 
                 }
                 lista_textos.remove(0);
-                llenar_lista(lista_img_v,lista_textos);
+                llenar_lista(lista_img_v,getTitle_VF(lista_textos),getDescription_VF(lista_textos));
                 VFAdapter vfAdapter = new VFAdapter(lista_parques,getContext());
                 recyclerView.setAdapter(vfAdapter);
             }
@@ -132,7 +131,7 @@ public class FragmentVF extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 lista_img_f = new ArrayList<>();
-                lista_textos = new ArrayList<>();
+                ArrayList<String> lista_textos = new ArrayList<>();
 
                 JSONObject jsonObject = response.optJSONObject("post");
                 String content = jsonObject.optString("content");
@@ -147,7 +146,18 @@ public class FragmentVF extends Fragment {
                         aux = link;
                     }
                 }
-                llenar_lista(lista_img_f,lista_textos);
+                String aux2=null;
+                for(Element i:elements){
+                    Elements str=i.getElementsByTag("p");
+                    String link2 = str.text();
+                    if(!link2.equals(aux2)&&!link2.equals("")){
+                        lista_textos.add(link2);
+                        aux2 = link2;
+                    }
+
+                }
+                lista_textos.remove(0);
+                llenar_lista(lista_img_f,getTitle_VF(lista_textos),getDescription_VF(lista_textos));
                 VFAdapter vfAdapter = new VFAdapter(lista_parques,getContext());
                 recyclerView.setAdapter(vfAdapter);
 
@@ -161,17 +171,34 @@ public class FragmentVF extends Fragment {
         VolleySingleton.getInstancia(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void llenar_lista(ArrayList<String> lista_img,ArrayList<String> lista_textos){
+    private void llenar_lista(ArrayList<String> lista_img,
+                              ArrayList<String> lista_title,ArrayList<String> lista_description){
 
         for(int index=0;index<lista_img.size();index++) {
-            for(int d=0;d<lista_textos.size();d++){
-
-            }
-                lista_parques.add(new Parques("Carlo", "Una especie extraña",
-                        lista_img.get(index)));
+            lista_parques.add(new Parques(lista_title.get(index), lista_description.get(index),
+                    lista_img.get(index)));
         }
     }
 
+    private ArrayList<String> getTitle_VF(ArrayList<String> lista_text){
+        ArrayList<String> lista_title = new ArrayList<>();
+        for(int index=0;index<lista_text.size();index++){
+            if(index%2==0){
+                lista_title.add(lista_text.get(index));
+            }
+        }
+        return lista_title;
+    }
+
+    private ArrayList<String> getDescription_VF(ArrayList<String> lista_text){
+        ArrayList<String> lista_description = new ArrayList<>();
+        for(int index=0;index<lista_text.size();index++){
+            if(index%2!=0){
+                lista_description.add(lista_text.get(index));
+            }
+        }
+        return lista_description;
+    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
