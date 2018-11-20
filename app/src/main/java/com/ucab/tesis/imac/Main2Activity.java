@@ -101,29 +101,16 @@ public class Main2Activity extends AppCompatActivity
 
         int id = item.getItemId();
         FragmentFOTO fragmentFOTO = null;
-        boolean fragment_seleccionado = false;
 
         if (id == R.id.nav_1) {
             fragmentFOTO = new FragmentFOTO();
-            fragment_seleccionado = true;
 
-        } else if (id == R.id.nav_3) {
-
-        } else if (id == R.id.nav_4) {
-
-        } else if (id == R.id.nav_5) {
-
-        } else if (id == R.id.nav_6) {
-
-        }
-
-        if (fragment_seleccionado) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.contendorFragments, fragmentFOTO)
                     .addToBackStack(null).commit();
-        }
 
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

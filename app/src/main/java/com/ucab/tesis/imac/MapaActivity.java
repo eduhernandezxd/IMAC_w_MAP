@@ -58,12 +58,12 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
         GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "MapaActivity";
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final int PERMISSIONS_REQUEST_ENABLE_GPS = 6215;
     private static final int ERROR_DIALOG_REQUEST = 0101;
     Context context = this;
-    //Var
+
     private Boolean mLocationPermissionsGranted = false;
     private Boolean EnableGPS = false;
     private GoogleMap mMap;
@@ -74,8 +74,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Polyline polyline;
     private int constante = 0;
     private AlertDialog alertDialog;
-    private ArrayList<Marker> mTripMarkers = new ArrayList<>();
-    //widgets
     private Spinner spinner;
 
     @Override
@@ -479,7 +477,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     List<LatLng> newDecodedPath = new ArrayList<>();
 
-                    //This loops through all the LatLng coordinates of ONE polyline.
                     for (com.google.maps.model.LatLng latLng : decodedPath) {
 
                         Log.d(TAG, "run: latlng: " + latLng.toString());
@@ -492,7 +489,6 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                     polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
                     constante++;
                     polyline.setColor(R.color.Blue);
-                    //polyline.setColor(ContextCompat.getColor(getResources(), R.color.ruta));
                     polyline.setClickable(true);
                     zoomRoute(polyline.getPoints());
 
